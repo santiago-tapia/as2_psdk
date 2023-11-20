@@ -8,10 +8,9 @@
 #include "as2_core/node.hpp"
 
 class As2NodeTemplate : public as2::Node {
- public:
+public:
   As2NodeTemplate();
-  using CallbackReturn =
-      rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
+  using CallbackReturn = rclcpp_lifecycle::node_interfaces::LifecycleNodeInterface::CallbackReturn;
 
   CallbackReturn on_configure(const rclcpp_lifecycle::State&) override;
   CallbackReturn on_deactivate(const rclcpp_lifecycle::State&) override;

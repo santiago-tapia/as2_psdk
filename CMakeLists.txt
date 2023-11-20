@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-set(PROJECT_NAME as2_pdk)
+set(PROJECT_NAME as2_psdk)
 project(${PROJECT_NAME})
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -10,9 +10,6 @@ endif()
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
-
-#set fPIC to ON by default (For Dynamic Link Libraries)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # find dependencies
 set(PROJECT_DEPENDENCIES
@@ -53,6 +50,9 @@ target_precompile_headers(${PROJECT_NAME}_node
     [["rclcpp/rclcpp.hpp"]]
 )
 
+#set fPIC to ON by default (For Dynamic Link Libraries)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 # The library name is the PROJECT_NAME
 add_library(${PROJECT_NAME} SHARED ${SOURCE_CPP_FILES} )
 target_include_directories(${PROJECT_NAME}
@@ -61,7 +61,11 @@ target_include_directories(${PROJECT_NAME}
     $<INSTALL_INTERFACE:include>
 )
 ament_target_dependencies(${PROJECT_NAME} ${PROJECT_DEPENDENCIES})
-target_precompile_headers(${PROJECT_NAME} REUSE_FROM ${PROJECT_NAME}_node)
+# Do not reuse pch because -fPIC is ON for libraries
+target_precompile_headers(${PROJECT_NAME}
+  PRIVATE
+    [["rclcpp/rclcpp.hpp"]]
+)
 ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 ament_export_dependencies(${PROJECT_DEPENDENCIES})
 ament_export_libraries(${PROJECT_NAME})

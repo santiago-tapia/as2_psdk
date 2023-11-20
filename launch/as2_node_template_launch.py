@@ -8,9 +8,9 @@ def generate_launch_description():
         DeclareLaunchArgument('drone_id', default_value='drone0'),
         DeclareLaunchArgument('use_sim_time', default_value='false'),
         Node(
-            package='as2_node_template',
-            executable='as2_node_template_node',
-            name='as2_node_template',
+            package='as2_psdk',
+            executable='as2_psdk_node',
+            name='as2_psdk',
             namespace=LaunchConfiguration('drone_id'),
             parameters=[{'use_sim_time': LaunchConfiguration('use_sim_time')}],
             output='screen',

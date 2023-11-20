@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>as2_pdk</name>
+  <name>as2_psdk</name>
   <version>0.0.0</version>
   <description>Package to integrate PSDK into Aerostack2 </description>
   <maintainer email="santiago.tapia@upm.es">Santiago Tapia-Fernández</maintainer>
