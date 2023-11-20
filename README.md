@@ -7,7 +7,7 @@
 ```bash
 git clone https://github.com/santiago-tapia/as2_psdk.git
 ```
-3) Install source requirements:
+3) Install source requirements (It takes a while because it has to download Payload SDK):
 ```bash
 as2_psdk/install_requirements.sh
 ```
