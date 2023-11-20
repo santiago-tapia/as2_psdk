@@ -7,12 +7,13 @@
 namespace as2::as2_psdk {
 
 struct VelocityCommand {
+  using Msg_t                    = sensor_msgs::msg::Joy;
   inline static std::string name = "/psdk_ros2/flight_control_setpoint_ENUposition_yaw";
 };
 
 class As2PsdkNode_impl {
 public:
-  Output<VelocityCommand, sensor_msgs::msg::Joy> velocityCommand;
+  Output<VelocityCommand> velocityCommand;
 
 public:
   As2PsdkNode_impl();

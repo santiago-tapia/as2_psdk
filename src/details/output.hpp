@@ -4,19 +4,22 @@
 
 namespace as2::as2_psdk {
 
-template <typename Name, typename Msg>
+template <typename PublisherDefinition>
 class Output {
 public:
-  using PublisherSharedPtr = typename rclcpp::Publisher<Msg>::SharedPtr;
+  using Msg_t              = typename PublisherDefinition::Msg_t;
+  using PublisherSharedPtr = typename rclcpp::Publisher<Msg_t>::SharedPtr;
 
-  void init(rclcpp::Node* node) { publisher_ = node->create_publisher<Msg>(Name::name, 10); }
+  void init(rclcpp::Node* node) {
+    publisher_ = node->create_publisher<Msg_t>(PublisherDefinition::name, 10);
+  }
 
   void publish() const { publisher_->publish(state_variable); }
 
-  Msg* operator->() { return &state_variable; }
+  Msg_t* operator->() { return &state_variable; }
 
 protected:
-  Msg state_variable;
+  Msg_t state_variable;
   PublisherSharedPtr publisher_;
 };
 
