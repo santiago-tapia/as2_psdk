@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[]) {
   rclcpp::init(argc, argv);
-  // auto node = std::make_shared<As2NodeTemplate>();
+  auto node = std::make_shared<as2::as2_psdk::As2PsdkNode>();
   // node->preset_loop_frequency(50);  // Node frequency for run and callbacks
   // // Node with only callbacks
   // as2::spinLoop(node);
