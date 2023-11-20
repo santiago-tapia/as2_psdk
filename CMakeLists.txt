@@ -40,7 +40,7 @@ include_directories(
 )
 
 set(SOURCE_CPP_FILES 
-  src/as2_node_template.cpp
+  src/as2_psdk_node.cpp
 )
 
 add_executable(${PROJECT_NAME}_node src/main.cpp ${SOURCE_CPP_FILES})
