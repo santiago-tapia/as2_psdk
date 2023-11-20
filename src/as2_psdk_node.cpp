@@ -5,15 +5,27 @@ namespace as2::as2_psdk {
 
 As2PsdkNode::As2PsdkNode() : _impl(new As2PsdkNode_impl{}) {}
 
-void As2PsdkNode::configureSensors() { _impl->init(this); }
+void As2PsdkNode::configureSensors() {
+  _impl->init(this);
+  if (!_impl->setLocalPositionService.wait_for_service()) {
+    // TODO: Since waiting is cancelled, is it neccesary any further action?
+    RCLCPP_ERROR(this->get_logger(), "Interrupted while waiting for the service. Exiting.");
+  }
+}
 
 bool As2PsdkNode::ownSendCommand() {
-  /*
+  // TODO: Look for the service to set reference and get control authority
   if (platform_info_msg_.current_control_mode.control_mode == as2_msgs::msg::ControlMode::HOVER) {
     // send all zeros
+    _impl->velocityCommand->axes[0] = 0.0f;  // x(m)
+    _impl->velocityCommand->axes[1] = 0.0f;
+    _impl->velocityCommand->axes[2] = 0.0f;
+    _impl->velocityCommand->axes[3] = 0.0f;  // yaw (rad)
+    _impl->velocityCommand.publish();
     RCLCPP_INFO(this->get_logger(), " HOVERING");
     return true;
   }
+  /*
   if (!this->has_new_references_) {
     RCLCPP_DEBUG_THROTTLE(this->get_logger(), *this->get_clock(), 1000,
                           "No new references since mode change");
