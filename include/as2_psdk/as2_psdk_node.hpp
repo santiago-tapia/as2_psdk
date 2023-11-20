@@ -17,6 +17,6 @@ public:
   virtual void ownStopPlatform() override;
 };
 
-}//namespace
+}  // namespace as2::as2_psdk
 
 #endif
