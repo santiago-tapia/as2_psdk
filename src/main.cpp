@@ -1,7 +1,7 @@
 // "Copyright [year] <Copyright Owner>"
 
 #include "as2_core/core_functions.hpp"
-#include "as2_node_template.hpp"
+#include "as2_psdk/as2_node_template.hpp"
 
 int main(int argc, char* argv[]) {
   rclcpp::init(argc, argv);

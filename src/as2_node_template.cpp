@@ -1,4 +1,4 @@
-#include "as2_node_template.hpp"
+#include "as2_psdk/as2_node_template.hpp"
 
 As2NodeTemplate::As2NodeTemplate() : as2::Node("as2_node_template") {}
 

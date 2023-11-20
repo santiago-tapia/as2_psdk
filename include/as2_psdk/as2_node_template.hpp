@@ -1,5 +1,5 @@
-#ifndef AS2_NODE_TEMPLATE_HPP_
-#define AS2_NODE_TEMPLATE_HPP_
+#ifndef AS2_NODE_TEMPLATE_HPP_10982741902451
+#define AS2_NODE_TEMPLATE_HPP_10982741902451
 
 #include <rclcpp/rclcpp.hpp>
 #include "as2_core/names/actions.hpp"

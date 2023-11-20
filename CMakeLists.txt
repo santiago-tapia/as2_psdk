@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
-set(PROJECT_NAME as2_node_template)
+set(PROJECT_NAME as2_pdk)
 project(${PROJECT_NAME})
 
-# Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 17)
 endif()
@@ -11,6 +10,9 @@ endif()
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
+
+#set fPIC to ON by default (For Dynamic Link Libraries)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # find dependencies
 set(PROJECT_DEPENDENCIES
@@ -22,8 +24,15 @@ set(PROJECT_DEPENDENCIES
   std_msgs
 )
 
+message(STATUS "Looking for dependencies")
+
 foreach(DEPENDENCY ${PROJECT_DEPENDENCIES})
   find_package(${DEPENDENCY} REQUIRED)
+  if(${DEPENDENCY}_FOUND)
+    message(STATUS "${DEPENDENCY} was found")
+  else()
+    message(STATUS "${DEPENDENCY} was not found")
+  endif()  
 endforeach()
 
 include_directories(
@@ -37,9 +46,53 @@ set(SOURCE_CPP_FILES
   src/as2_node_template.cpp
 )
 
-add_executable(${PROJECT_NAME}_node src/as2_node_template_node.cpp ${SOURCE_CPP_FILES})
+add_executable(${PROJECT_NAME}_node src/main.cpp ${SOURCE_CPP_FILES})
 ament_target_dependencies(${PROJECT_NAME}_node ${PROJECT_DEPENDENCIES})
+target_precompile_headers(${PROJECT_NAME}_node
+  PRIVATE
+    [["rclcpp/rclcpp.hpp"]]
+)
 
+# The library name is the PROJECT_NAME
+add_library(${PROJECT_NAME} SHARED ${SOURCE_CPP_FILES} )
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+ament_target_dependencies(${PROJECT_NAME} ${PROJECT_DEPENDENCIES})
+target_precompile_headers(${PROJECT_NAME} REUSE_FROM ${PROJECT_NAME}_node)
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+ament_export_dependencies(${PROJECT_DEPENDENCIES})
+ament_export_libraries(${PROJECT_NAME})
+
+ament_export_include_directories(include)
+
+# Install 
+
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY include/
+  DESTINATION include
+)
+
+install(
+  TARGETS ${PROJECT_NAME}_node
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+  INCLUDES DESTINATION include
+)
 
 if(BUILD_TESTING)
   find_package(ament_cmake_cppcheck REQUIRED)
@@ -48,13 +101,5 @@ if(BUILD_TESTING)
   ament_cppcheck(src/ include/ tests/)
   ament_clang_format(src/ include/ tests/ --config ${CMAKE_CURRENT_SOURCE_DIR}/.clang-format)
 endif()
-
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME})
-
-install(TARGETS
-  ${PROJECT_NAME}_node
-  DESTINATION lib/${PROJECT_NAME})
     
 ament_package()
