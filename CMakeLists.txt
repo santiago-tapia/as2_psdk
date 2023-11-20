@@ -68,9 +68,11 @@ target_precompile_headers(${PROJECT_NAME}
 )
 ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
 ament_export_dependencies(${PROJECT_DEPENDENCIES})
-ament_export_libraries(${PROJECT_NAME})
 
-ament_export_include_directories(include)
+# These are superfluous for target based installs:
+# (See https://docs.ros.org/en/rolling/How-To-Guides/Ament-CMake-Documentation.html)
+ament_export_libraries(${PROJECT_NAME})
+ament_export_include_directories("include/${PROJECT_NAME}")
 
 # Install 
 
@@ -81,7 +83,7 @@ install(DIRECTORY
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 install(
