@@ -1,11 +1,14 @@
 #include "as2_psdk/as2_psdk_node.hpp"
 #include "details/as2_psdk_node_impl.hpp"
 
-namespace as2::as2_psdk {
+namespace as2::as2_psdk
+{
 
-As2PsdkNode::As2PsdkNode() : _impl(new As2PsdkNode_impl{}) {}
+As2PsdkNode::As2PsdkNode()
+: _impl(new As2PsdkNode_impl{}) {}
 
-void As2PsdkNode::configureSensors() {
+void As2PsdkNode::configureSensors()
+{
   _impl->init(this);
   if (!_impl->setLocalPositionService.wait_for_service()) {
     // TODO: Since waiting is cancelled, is it neccesary any further action?
@@ -13,7 +16,8 @@ void As2PsdkNode::configureSensors() {
   }
 }
 
-bool As2PsdkNode::ownSendCommand() {
+bool As2PsdkNode::ownSendCommand()
+{
   // TODO: Look for the service to set reference and get control authority
   if (platform_info_msg_.current_control_mode.control_mode == as2_msgs::msg::ControlMode::HOVER) {
     // send all zeros
@@ -80,11 +84,11 @@ bool As2PsdkNode::ownSendCommand() {
   return true;
 }
 
-bool As2PsdkNode::ownSetArmingState(bool state) { return false; }
+bool As2PsdkNode::ownSetArmingState(bool state) {return false;}
 
-bool As2PsdkNode::ownSetOffboardControl(bool offboard) { return false; }
+bool As2PsdkNode::ownSetOffboardControl(bool offboard) {return false;}
 
-bool As2PsdkNode::ownSetPlatformControlMode(const as2_msgs::msg::ControlMode &msg) { return false; }
+bool As2PsdkNode::ownSetPlatformControlMode(const as2_msgs::msg::ControlMode & msg) {return false;}
 
 void As2PsdkNode::ownKillSwitch() {}
 

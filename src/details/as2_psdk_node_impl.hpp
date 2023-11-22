@@ -6,21 +6,25 @@
 #include "service_client.hpp"
 #include "std_srvs/srv/trigger.hpp"
 
-namespace as2::as2_psdk {
+namespace as2::as2_psdk
+{
 
-struct VelocityCommand {
-  using Msg_t                    = sensor_msgs::msg::Joy;
+struct VelocityCommand
+{
+  using Msg_t = sensor_msgs::msg::Joy;
   inline static std::string name = "/psdk_ros2/flight_control_setpoint_ENUposition_yaw";
   // TODO: Check the actual command name
 };
 
 // Service to set initial reference should be called before any control command
-struct SetLocalPositionService {
-  using Msg_t                    = std_srvs::srv::Trigger;
+struct SetLocalPositionService
+{
+  using Msg_t = std_srvs::srv::Trigger;
   inline static std::string name = "/psdk_ros2/set_local_position_ref";
 };
 
-class As2PsdkNode_impl {
+class As2PsdkNode_impl
+{
 public:
   Output<VelocityCommand> velocityCommand;
   ServiceClient<SetLocalPositionService> setLocalPositionService;
