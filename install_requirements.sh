@@ -18,3 +18,6 @@ git checkout release/v3.5
 
 # Ignore Payload_SDK since is already built
 touch COLCON_IGNORE
+
+wget https://raw.githubusercontent.com/ament/ament_lint/rolling/ament_uncrustify/ament_uncrustify/configuration/ament_code_style.cfg
+mv ament_code_style.cfg uncrustify.cfg
